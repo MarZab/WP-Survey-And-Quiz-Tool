@@ -540,11 +540,11 @@ class Wpsqt_Shortcode {
 			Wpsqt_Mail::sendMail();
 		}
 
-		require_once Wpsqt_Core::pageView('site/'.$this->_type.'/finished.php');
 		if ( $this->_type == "survey" || $this->_type == "poll" ){
 			$this->_cacheSurveys();
 		}
 
+		require_once Wpsqt_Core::pageView('site/'.$this->_type.'/finished.php');
 		unset($_SESSION['wpsqt']['result_id']);
 	}
 
@@ -606,11 +606,11 @@ class Wpsqt_Shortcode {
 								$cachedSections[$sectionKey]['questions'][$question['id']]['answers'][$i] = array('count' => 0);
 							}
 						} else {
-							$cachedSections[$sectionKey]['questions'][$question['id']]['answers']['stronglydisagree'] = array('count' => 0);
-							$cachedSections[$sectionKey]['questions'][$question['id']]['answers']['disagree'] = array('count' => 0);
-							$cachedSections[$sectionKey]['questions'][$question['id']]['answers']['meh'] = array('count' => 0);
-							$cachedSections[$sectionKey]['questions'][$question['id']]['answers']['agree'] = array('count' => 0);
-							$cachedSections[$sectionKey]['questions'][$question['id']]['answers']['stronglyagree'] = array('count' => 0);
+							$cachedSections[$sectionKey]['questions'][$question['id']]['answers']['Strongly Disagree'] = array('count' => 0);
+							$cachedSections[$sectionKey]['questions'][$question['id']]['answers']['Disagree'] = array('count' => 0);
+							$cachedSections[$sectionKey]['questions'][$question['id']]['answers']['No Opinion'] = array('count' => 0);
+							$cachedSections[$sectionKey]['questions'][$question['id']]['answers']['Agree'] = array('count' => 0);
+							$cachedSections[$sectionKey]['questions'][$question['id']]['answers']['Strongly Agree'] = array('count' => 0);
 						}
 					}
 				} elseif ( $cachedSections[$sectionKey]['questions'][$question['id']]['type'] == "Free Text" ){

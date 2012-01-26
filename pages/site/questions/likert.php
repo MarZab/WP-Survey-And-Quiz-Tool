@@ -6,10 +6,10 @@ if ($question['likertscale'] != "Agree/Disagree") {
 	<?php }
 } else {
 	?>
-	<span class="wpsqt_likert_answer"><input type="radio" name="answers[<?php echo $questionKey; ?>]" value="stronglydisagree" id="answer_<?php echo $question['id']; ?>_stronglydisagree" /> <label for="answer_<?php echo $question['id']; ?>_stronglydisagree">Strongly Disagree</label></span>
-	<span class="wpsqt_likert_answer"><input type="radio" name="answers[<?php echo $questionKey; ?>]" value="disagree" id="answer_<?php echo $question['id']; ?>_disagree" /> <label for="answer_<?php echo $question['id']; ?>_disagree">Disagree</label></span>
-	<span class="wpsqt_likert_answer"><input type="radio" name="answers[<?php echo $questionKey; ?>]" value="meh" id="answer_<?php echo $question['id']; ?>_meh" /> <label for="answer_<?php echo $question['id']; ?>_meh">No Opinion</label></span>
-	<span class="wpsqt_likert_answer"><input type="radio" name="answers[<?php echo $questionKey; ?>]" value="agree" id="answer_<?php echo $question['id']; ?>_agree" /> <label for="answer_<?php echo $question['id']; ?>_agree">Agree</label></span>
-	<span class="wpsqt_likert_answer"><input type="radio" name="answers[<?php echo $questionKey; ?>]" value="stronglyagree" id="answer_<?php echo $question['id']; ?>_stronglyagree" /> <label for="answer_<?php echo $question['id']; ?>_stronglyagree">Strongly Agree</label></span>
+	<span class="wpsqt_likert_answer"><input type="radio" name="answers[<?php echo $questionKey; ?>]" value="Strongly Disagree" id="answer_<?php echo $question['id']; ?>_stronglydisagree" /> <label for="answer_<?php echo $question['id']; ?>_stronglydisagree">Strongly Disagree</label></span>
+	<span class="wpsqt_likert_answer"><input type="radio" name="answers[<?php echo $questionKey; ?>]" value="Disagree" id="answer_<?php echo $question['id']; ?>_disagree" /> <label for="answer_<?php echo $question['id']; ?>_disagree">Disagree</label></span>
+	<span class="wpsqt_likert_answer"><input type="radio" name="answers[<?php echo $questionKey; ?>]" value="No Opinion" id="answer_<?php echo $question['id']; ?>_noopinion" /> <label for="answer_<?php echo $question['id']; ?>_noopinion">No Opinion</label></span>
+	<span class="wpsqt_likert_answer"><input type="radio" name="answers[<?php echo $questionKey; ?>]" value="Agree" id="answer_<?php echo $question['id']; ?>_agree" /> <label for="answer_<?php echo $question['id']; ?>_agree">Agree</label></span>
+	<span class="wpsqt_likert_answer"><input type="radio" name="answers[<?php echo $questionKey; ?>]" value="Strongly Agree" id="answer_<?php echo $question['id']; ?>_stronglyagree" /> <label for="answer_<?php echo $question['id']; ?>_stronglyagree">Strongly Agree</label></span>
 <?php } ?>
 <br /><br />

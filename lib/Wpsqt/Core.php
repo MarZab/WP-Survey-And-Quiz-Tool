@@ -455,5 +455,6 @@ class Wpsqt_Core {
 
 	public function enqueue_files() {
 		wp_enqueue_script("jquery");
+		wp_enqueue_style("wpsqt-main",plugins_url('/css/main.css',WPSQT_FILE));
 	}
 }

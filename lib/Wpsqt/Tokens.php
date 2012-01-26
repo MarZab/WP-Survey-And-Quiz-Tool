@@ -114,9 +114,11 @@ class Wpsqt_Tokens {
 			$this->setTokenValue($token,$_SESSION['wpsqt'][$quizName]['details']['name']);
 		}
 
-		// Calculate percentage
-		preg_match('$(\d*)\scorrect\sout\sof\s(\d*)$', $_SESSION['wpsqt']['current_score'], $score);
-		$percentage = $score[1] / $score[2] * 100 . '%';
+		if ($_SESSION['wpsqt']['current_type'] == 'quiz') {
+			// Calculate percentage
+			preg_match('$(\d*)\scorrect\sout\sof\s(\d*)$', $_SESSION['wpsqt']['current_score'], $score);
+			$percentage = $score[1] / $score[2] * 100 . '%';
+		}
 		
 		$this->setTokenValue('DATE_EU'     , date('d-m-Y') );
 		$this->setTokenValue('DATE_US'     , date('m-d-Y') );

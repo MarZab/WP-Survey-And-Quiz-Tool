@@ -65,6 +65,16 @@
 				<td valign="top">The template of the email sent on notification. <Strong>If empty default one will be sent.</Strong> <a href="#template_tokens">Click here</a> to see the tokens for replacement.</td>
 			</tr>
 			<tr>
+				<th scope="row">Chart Background Colour</th>
+				<td><input type="text" name="wpsqt_chart_bg" value="<?php echo $chartBg; ?>" size="30" /></td>
+				<td>This is the colour that will be displayed as the chart background (in RGB format)</td>
+			</tr>
+			<tr>
+				<th scope="row">Chart Bar Colour</th>
+				<td><input type="text" name="wpsqt_chart_colour" value="<?php echo $chartColour; ?>" size="30" /></td>
+				<td>This is the colour that will be displayed as the chart bar colour (in RGB format)</td>
+			</tr>
+			<tr>
 				<th scope="row">Support Us!</th>
 				<td><input type="radio" name="wpsqt_support_us" value="yes" id="support_yes" <?php if ( !isset($supportUs) || empty($supportUs) || $supportUs == 'yes' ){ ?> checked="yes"<?php }?>> <label for="support_yes"><strong>Yes!</strong></label>
 					<input type="radio" name="wpsqt_support_us" value="no" id="support_no" <?php if ($supportUs == 'no'){ ?> checked="yes"<?php }?>> <label for="support_no">No</label></td>
