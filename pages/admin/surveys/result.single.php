@@ -60,6 +60,19 @@
 				</p>
 			<?php } else if (ucfirst($questionArray['type']) == 'Likert') {
 					?><p></p><b><u>Answer Given</u>:&nbsp;</b><?php if(isset($section['answers'][$questionId]['given'])) { echo $section['answers'][$questionId]['given']; } else { echo 'None'; } ?> </p> <?php
+				} else if (ucfirst($questionArray['type']) == 'Likert Matrix') {
+					echo '<ul>';
+					foreach ($section['answers'][$questionId]['given'] as $givenAnswer) {
+						if (is_array($givenAnswer)) {
+							$otherText = $givenAnswer['text'];
+							$givenAnswer = explode("_", $givenAnswer[0]);
+							echo '<li><strong>'.$otherText.'</strong> - '.$givenAnswer[1].'</li>';
+						} else {
+							$givenAnswer = explode("_", $givenAnswer);
+							echo '<li><strong>'.$givenAnswer[0].'</strong> - '.$givenAnswer[1].'</li>';
+						}
+					}
+					echo '</ul>';
 				} else {
 				?>				
 				<b><u>Answer Given</u></b>

@@ -1,3 +1,21 @@
+<script type="text/javascript">
+jQuery(document).ready(function() {
+	jQuery("#wpsqt_questions tbody.wpsqt_questions_content").sortable();
+	jQuery("#wpsqt_questions tbody.wpsqt_questions_content").disableSelection();
+});
+
+var saveOrder = function() {
+	var table = jQuery("#wpsqt_questions tbody.wpsqt_questions_content");
+	var order = "";
+	table.children().each(function() {
+		order = order + jQuery(this).attr('id') + ',';
+	});
+	order = encodeURIComponent(order);
+	orderURL = "<?php echo WPSQT_URL_MAIN.'&section=questions&subsection=survey&id='.$_GET['id'].'&order=' ?>" + order;
+	window.location = orderURL;
+}
+</script>
+
 <div class="wrap">
 
 	<div id="icon-tools" class="icon32"></div>
@@ -38,14 +56,14 @@
 		<?php if ( isset($_GET['id']) ){ ?>
 		<div class="alignleft">
 			<a href="<?php echo WPSQT_URL_MAIN; ?>&section=questionadd&subsection=<?php esc_html_e($_GET['subsection']); ?>&id=<?php esc_html_e($_GET['id']); ?>" class="button-secondary" title="Add New Question">Add New Question</a>
+			<a href="#" title="Save Order" onclick="saveOrder();" class="button-secondary">Save Order</a>
 		</div>
 		<?php } ?>		
 		<div class="tablenav-pages">
 		   <?php echo Wpsqt_Core::getPaginationLinks($currentPage, $numberOfPages);  ?>
 		</div>
 	</div>
-	
-	<table class="widefat">
+	<table class="widefat" id="wpsqt_questions">
 		<thead>
 			<tr>
 				<th>ID</th>
@@ -53,6 +71,7 @@
 				<th>Type</th>
 				<th>Edit</th>
 				<th>Delete</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tfoot>
@@ -62,9 +81,10 @@
 				<th>Type</th>
 				<th>Edit</th>
 				<th>Delete</th>
+				<th></th>
 			</tr>
 		</tfoot>
-		<tbody>
+		<tbody class="wpsqt_questions_content">
 			<?php if ( empty($questions) ) { ?>			
 				<tr>
 					<td colspan="5"><div style="text-align: center;">No questions yet!</div></td>
@@ -76,12 +96,13 @@
 						$count++;
 						$question = Wpsqt_System::unserializeQuestion($rawQuestion, $_GET['subsection']);
 						?>
-			<tr class="<?php echo ( $count % 2 ) ?  'wpsqt-odd' : 'wpsqt-even'; ?>">
+			<tr class="<?php echo ( $count % 2 ) ?  'wpsqt-odd' : 'wpsqt-even'; ?>" id="<?php echo $question['id']; ?>">
 				<td><?php echo $question['id']; ?></td>
 				<td><?php echo stripslashes($question['name']); ?></td>
 				<td><?php echo ucfirst( stripslashes($question['type']) ); ?></td>
 				<td><a href="<?php echo WPSQT_URL_MAIN; ?>&section=questionedit&subsection=<?php esc_html_e($_GET['subsection']); ?>&id=<?php esc_html_e($_GET['id']); ?>&questionid=<?php esc_html_e($question['id']); ?>" class="button-secondary" title="Edit Question">Edit</a></td>
 				<td><a href="<?php echo WPSQT_URL_MAIN; ?>&section=questiondelete&subsection=<?php esc_html_e($_GET['subsection']); ?>&id=<?php esc_html_e($_GET['id']); ?>&questionid=<?php esc_html_e($question['id']); ?>" class="button-secondary" title="Delete Question">Delete</a></td>
+				<td><img src="<?php echo plugin_dir_url(WPSQT_DIR.'images/handle.png').'handle.png'; ?>" /></td>
 			</tr>
 			<?php } 
 				 }?>
@@ -92,6 +113,7 @@
 		<?php if ( isset($_GET['id']) ){ ?>
 		<div class="alignleft">
 			<a href="<?php echo WPSQT_URL_MAIN; ?>&section=questionadd&subsection=<?php esc_html_e($_GET['subsection']); ?>&id=<?php esc_html_e($_GET['id']); ?>" class="button-secondary" title="Add New Question">Add New Question</a>
+			<a href="#" title="Save Order" onclick="saveOrder();" class="button-secondary">Save Order</a>
 		</div>
 		<?php } ?>		
 		<div class="tablenav-pages">

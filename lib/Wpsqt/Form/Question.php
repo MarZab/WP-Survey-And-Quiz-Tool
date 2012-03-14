@@ -31,7 +31,9 @@ class Wpsqt_Form_Question extends Wpsqt_Form {
 							 'add_text' => false,
 							 'required' => false,
 					 		 'image' => false,
-					 		 'likertscale' => false);
+					 		 'likertscale' => false,
+					 		 'likertmatrixscale' => false,
+					 		 'likertmatrixcustom' => false);
 		}
 		$typeHelpText = "";
 		foreach ( $questionTypes as $type => $text ){
@@ -39,13 +41,11 @@ class Wpsqt_Form_Question extends Wpsqt_Form {
 		}
 		
 		$this->addOption("wpsqt_name", "Question", "text", $options['question'], "The text for the question (the actual question)." )
-			 ->addOption("wpsqt_type", "Type", "select", $options['type'], $typeHelpText, array_keys($questionTypes) );
-			 
-		if(array_key_exists('Likert', $questionTypes)) {
-			$this->addOption("wpsqt_likertscale", "Likert Scale", "select", $options['likertscale'], "What should the likert display to?", array('10', '5', '3', 'Agree/Disagree') );
-		}
-			 
-		$this->addOption("wpsqt_points", "Points", "select", $options['points'], "How many points the question is worth.", range(1,10))
+			 ->addOption("wpsqt_type", "Type", "select", $options['type'], $typeHelpText, array_keys($questionTypes) )
+			 ->addOption("wpsqt_likertmatrixscale", "Likert Matrix Scale", "select", $options['likertmatrixscale'], "Scale 1-5 or Disagree/Agree", array("1-5", "Disagree/Agree"))
+			 ->addOption("wpsqt_likertscale", "Likert Scale", "select", $options['likertscale'], "What should the likert display to?", array('10', '5', '3', 'Agree/Disagree'))
+			 ->addOption("wpsqt_likertmatrixcustom", "Custom Answer", "yesno", $options['likertmatrixcustom'], "Would you like the user to be able to enter a custom answer?")
+			 ->addOption("wpsqt_points", "Points", "select", $options['points'], "How many points the question is worth.", range(1,10))
 			 ->addOption("wpsqt_difficulty", "Difficulty", "select", $options['difficulty'], "The difficulty of the question.", array('Easy','Medium','Hard'))
 			 ->addOption("wpsqt_section", "Section", "select", $options['section'], "The section/page this question should be in/on.", $sections)
 			 ->addOption("wpsqt_required", "Required", "yesno", $options['required'], "Should the user be forced to answer the question to progress to the next step?")

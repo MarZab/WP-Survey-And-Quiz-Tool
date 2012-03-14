@@ -447,6 +447,7 @@ class Wpsqt_System {
 		$questions = array('Multiple Choice' => 'Multiple choice question with mulitple correct answers.',
 									  'Dropdown' => 'Multiple choice question with mulitple correct answers.',
 									  'Likert' => '',
+									  'Likert Matrix' => 'Displays a matrix of likert scales from 1 to 5',
 									  'Free Text' => '');
 		
 		return apply_filters('wpsqt_survey_question_types', $questions );

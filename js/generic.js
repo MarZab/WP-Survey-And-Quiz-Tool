@@ -100,7 +100,20 @@ jQuery(document).ready( function(){
 		});
 		
 		jQuery("#sub_form_"+questionType.replace(" ", "").toLowerCase()).show();
-		
+
+		if (questionType == 'Likert') {
+			jQuery("#wpsqt_likertscale").parent().parent().show();
+		} else {
+			jQuery("#wpsqt_likertscale").parent().parent().hide();
+		}
+
+		if (questionType == 'Likert Matrix') {
+			jQuery("#wpsqt_likertmatrixscale").parent().parent().show();
+			jQuery("#wpsqt_likertmatrixcustom_no").parent().parent().show();
+		} else {
+			jQuery("#wpsqt_likertmatrixscale").parent().parent().hide();
+			jQuery("#wpsqt_likertmatrixcustom_no").parent().parent().hide();
+		}
 	});
 	
 	jQuery('.sub_form').each(function() {
@@ -127,7 +140,19 @@ jQuery(document).ready( function(){
 		jQuery('#row_count').val(rowCount+1);
 		return false;
 	});
+
+	jQuery("#wsqt_likertmatrix_add").click( function(){
+		var rowCount = jQuery('#sub_form_likertmatrix tbody tr').length;
+		var html = '';
+		html += '<tr>';
+		html += '<td><input type="text" name="likertmatrix_name['+rowCount+']" value="" /></td>'; 
+		html += '</tr>';
+		jQuery('#sub_form_likertmatrix tbody tr:last').after(html);
+		jQuery('#row_count').val(rowCount+1);
+		return false;
+	});
 	
+	jQuery("#wpsqt_type").change();
 });
 
 

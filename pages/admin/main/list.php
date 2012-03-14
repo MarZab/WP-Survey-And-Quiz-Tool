@@ -66,6 +66,7 @@
 						</strong>
 						<div class="row-actions">
 							<span class="edit"><a href="<?php echo WPSQT_URL_MAIN; ?>&section=edit&subsection=<?php esc_html_e($result["type"]); ?>&id=<?php esc_html_e($result["id"]); ?>">Edit</a> | </span>
+							<span class="duplicate"><a href="<?php echo WPSQT_URL_MAIN; ?>&section=duplicate&subsection=<?php esc_html_e($result["type"]); ?>&id=<?php esc_html_e($result["id"]); ?>">Duplicate</a> | </span>
 							<span class="section"><a href="<?php echo WPSQT_URL_MAIN; ?>&section=sections&subsection=<?php esc_html_e($result["type"]); ?>&id=<?php esc_html_e($result["id"]); ?>">Sections</a> | </span>
 							<span class="questions"><a href="<?php echo WPSQT_URL_MAIN; ?>&section=questions&subsection=<?php esc_html_e($result["type"]); ?>&id=<?php esc_html_e($result["id"]); ?>">Questions</a> | </span>
 							<span class="form"><a href="<?php echo WPSQT_URL_MAIN; ?>&section=form&subsection=<?php esc_html_e($result['type']); ?>&id=<?php esc_html_e($result["id"]); ?>">Form</a> | </span>

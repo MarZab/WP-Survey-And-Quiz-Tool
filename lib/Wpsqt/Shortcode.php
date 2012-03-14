@@ -187,6 +187,19 @@ class Wpsqt_Shortcode {
 			}
 		}
 
+		// Checks if limiting by cookie is enabled and if the user has already taken it
+		if (isset($_SESSION['wpsqt'][$quizName]['details']['limit_one_cookie']) && $_SESSION['wpsqt'][$quizName]['details']['limit_one_cookie'] == 'yes') {
+			$quizNameEscaped = str_replace(" ", "_", $quizName);
+			if (isset($_COOKIE['wpsqt_'.$quizNameEscaped.'_taken']) && $_COOKIE['wpsqt_'.$quizNameEscaped.'_taken'] == 'yes') {
+				echo 'You appear to have already taken this '.$this->_type.'.';
+				$id = (int) $_SESSION['wpsqt']['item_id'];
+				$result = $wpdb->get_row("SELECT * FROM `".WPSQT_TABLE_SURVEY_CACHE."` WHERE item_id = '".$id."'", ARRAY_A);
+				$sections = unserialize($result['sections']);
+				require_once WPSQT_DIR.'/pages/admin/surveys/result.total.script.site.php';
+				return;
+			}
+		}
+
 
 		// handle contact form and all the stuff that comes with it.
 		if ( isset($_SESSION['wpsqt'][$quizName]['details']['contact']) && $_SESSION['wpsqt'][$quizName]['details']['contact'] == "yes" && $this->_step <= 1 ){
@@ -336,7 +349,6 @@ class Wpsqt_Shortcode {
 							$incorrect += $questionData["points"];
 							$answerMarked['mark'] = "incorrect";
 						}
-
 					} else {
 							$canAutoMark = false;
 					}// END if section type == multiple
@@ -347,7 +359,6 @@ class Wpsqt_Shortcode {
 
 					$answerMarked["given"] = $givenAnswers;
 					$_SESSION["wpsqt"][$quizName]["sections"][$pastSectionKey]["answers"][$questionId] = $answerMarked;
-
 				}// END foreach answer
 				$_SESSION["wpsqt"][$quizName]["sections"][$pastSectionKey]["stats"] = array("correct" => $correct, "incorrect" => $incorrect);
 				$_SESSION["wpsqt"][$quizName]["sections"][$pastSectionKey]["can_automark"] = $canAutoMark;
@@ -393,7 +404,7 @@ class Wpsqt_Shortcode {
 		$quizName = $_SESSION["wpsqt"]["current_id"];
 		$sectionKey = $this->_key;
 		$section = $_SESSION["wpsqt"][$quizName]["sections"][$sectionKey];
-		$orderBy = ($section["order"] == "random") ? "RAND()" : "id ".strtoupper($section["order"]);
+		$orderBy = ($section["order"] == "random") ? "RAND()" : "`order` ".strtoupper($section["order"]);
 		$_SESSION["wpsqt"][$quizName]["sections"][$sectionKey]["questions"] = array();
 
 		if ( !empty($_SESSION["wpsqt"][$quizName]["sections"][$sectionKey]['limit']) ){
@@ -543,6 +554,21 @@ class Wpsqt_Shortcode {
 		if ( $this->_type == "survey" || $this->_type == "poll" ){
 			$this->_cacheSurveys();
 		}
+		
+		if ( isset($_SESSION['wpsqt'][$quizName]['details']['limit_one_cookie']) && $_SESSION['wpsqt'][$quizName]['details']['limit_one_cookie'] == 'yes' ){
+			// Create the cookie
+			?>
+			<script type="text/javascript">
+			var c_name = "wpsqt_<?php echo $quizName; ?>_taken";
+			var value = "yes"
+			var exdays = 365;
+			var exdate = new Date();
+			exdate.setDate(exdate.getDate() + exdays);
+			var c_value=escape(value) + ((exdays==null) ? "" : "; expires="+exdate.toUTCString());
+			document.cookie=c_name + "=" + c_value;
+			</script>
+			<?php
+		}
 
 		require_once Wpsqt_Core::pageView('site/'.$this->_type.'/finished.php');
 		unset($_SESSION['wpsqt']['result_id']);
@@ -596,7 +622,28 @@ class Wpsqt_Shortcode {
 							$cachedSections[$sectionKey]['questions'][$question['id']]['answers'][$answerKey] = array("text" => $answers['text'],"count" => 0);
 						}
 					 }
+				} elseif ($cachedSections[$sectionKey]['questions'][$question['id']]['type'] == "Likert Matrix") {
+					// Enables the results script to have access to the scale of the likert matrix
+					if (isset($_SESSION['wpsqt'][$quizName]['sections'][$sectionKey]['questions'][$questionKey]['likertmatrixscale']) && $_SESSION['wpsqt'][$quizName]['sections'][$sectionKey]['questions'][$questionKey]['likertmatrixscale'] == 'Disagree/Agree') {
+						$cachedSections[$sectionKey]['questions'][$question['id']]['scale'] = 'disagree/agree';
+					} else {
+						$cachedSections[$sectionKey]['questions'][$question['id']]['scale'] = '1-5';
+					}
 
+					if (empty($cachedSections[$sectionKey]['questions'][$question['id']]['answers'])) {
+						foreach ($question['answers'] as $key => $answer) {
+							$cachedSections[$sectionKey]['questions'][$question['id']]['answers'][$answer['text']]['1'] = array('count' => 0);
+							$cachedSections[$sectionKey]['questions'][$question['id']]['answers'][$answer['text']]['2'] = array('count' => 0);
+							$cachedSections[$sectionKey]['questions'][$question['id']]['answers'][$answer['text']]['3'] = array('count' => 0);
+							$cachedSections[$sectionKey]['questions'][$question['id']]['answers'][$answer['text']]['4'] = array('count' => 0);
+							$cachedSections[$sectionKey]['questions'][$question['id']]['answers'][$answer['text']]['5'] = array('count' => 0);
+							$cachedSections[$sectionKey]['questions'][$question['id']]['answers']['other']['1'] = array('count' => 0);
+							$cachedSections[$sectionKey]['questions'][$question['id']]['answers']['other']['2'] = array('count' => 0);
+							$cachedSections[$sectionKey]['questions'][$question['id']]['answers']['other']['3'] = array('count' => 0);
+							$cachedSections[$sectionKey]['questions'][$question['id']]['answers']['other']['4'] = array('count' => 0);
+							$cachedSections[$sectionKey]['questions'][$question['id']]['answers']['other']['5'] = array('count' => 0);
+						}
+					}
 				} elseif ( $cachedSections[$sectionKey]['questions'][$question['id']]['type'] == "Likert" ||
 						   $cachedSections[$sectionKey]['questions'][$question['id']]['type'] == "Scale" ){
 				 	if ( empty($cachedSections[$sectionKey]['questions'][$question['id']]['answers']) ) {
@@ -619,7 +666,7 @@ class Wpsqt_Shortcode {
 					}
 					continue;
 				} else {
-					if ( empty($cachedSections[$sectionKey]['questions'][$question['id']]['answers']) ) {
+					if ( empty($cachedSections[$sectionKey]['questions'][$question['id']]['answers']) && $cachedSections[$sectionKey]['questions'][$question['id']]['type'] != "Likert Matrix" ) {
 						$cachedSections[$sectionKey]['questions'][$question['id']]['answers'] = 'None Cached - Not a default question type.';
 					}
 					continue;
@@ -646,6 +693,19 @@ class Wpsqt_Shortcode {
 						}
 					} else {
 						$givenAnswer = NULL;
+					}
+				}
+				if ($cachedSections[$sectionKey]['questions'][$question['id']]['type'] == "Likert Matrix") {
+					foreach ($section['answers'][$question['id']]['given'] as $givenAnswerData) {
+						if (is_array($givenAnswerData)) {
+							// Other field:
+							$otherText = $givenAnswerData['text'];
+							$givenAnswerData = explode("_", $givenAnswerData[0]);
+							$cachedSections[$sectionKey]['questions'][$question['id']]['answers'][$givenAnswerData[0]][$givenAnswerData[1]]['count'] += 1;
+						} else {
+							$givenAnswerData = explode("_", $givenAnswerData);
+							$cachedSections[$sectionKey]['questions'][$question['id']]['answers'][$givenAnswerData[0]][$givenAnswerData[1]]['count'] += 1;
+						}
 					}
 				}
 				if (isset($question['likertscale']) && $question['likertscale'] == 'Agree/Disagree') {

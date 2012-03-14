@@ -5,8 +5,7 @@
 <?php } else { ?>
 
 	<?php foreach ( $sections as $sectionKey => $secton ){
-			foreach ( $secton['questions'] as $questonKey => $question ) {
-		?>
+			foreach ( $secton['questions'] as $questonKey => $question ) { ?>
 			<h3><?php echo $question['name']; ?></h3>
 
 			<?php if ( $question['type'] == "Multiple Choice" ||
@@ -61,7 +60,7 @@
 									$maxValue = $answer['count'];
 							}
 							// Makes chart wider if its an agree/disagree question
-							if (array_key_exists('disagree', $question['answers'])) {
+							if (array_key_exists('Disagree', $question['answers'])) {
 								$googleChartUrl .= '&chs=500x250&chbh=r,70,10';
 								$googleChartUrl .= '&chxt=x&chxl=0:|Strongly Disagree|Disagree|No Opinion|Agree|Strongly Agree'; // Sets labelling to x-axis only
 							} else {
@@ -72,8 +71,44 @@
 							$googleChartUrl .= '&chds=0,'.(++$maxValue); // Sets scaling to a little bit more than max value
 							$googleChartUrl .= '&chd=t:'.implode(',', $valueArray); // Chart data
 							?><img src="<?php echo $googleChartUrl; ?>" alt="<?php echo $question['name']; ?>" /><?php
+					  } else if ($question['type'] == "Likert Matrix") {
+					  		if (isset($question['scale']) && $question['scale'] == 'disagree/agree') {
+					  			$wordScale = true;
+					  		} else {
+					  			$wordScale = false;
+					  		}
+					  		foreach($question['answers'] as $optionkey => $matrixOption) {
+					  			$googleChartUrl = 'http://chart.apis.google.com/chart?&cht=bvs';
+								$valueArray    = array();
+								$nameArray     = array();
+								$maxValue = 0;
+								$numAnswers = count($question['answers']);
+
+								foreach ($matrixOption as $key => $answer) {
+									$nameArray[] = $key;
+									$valueArray[] = $answer['count'];
+									// Gets the maximum value
+									if ($answer['count'] > $maxValue)
+										$maxValue = $answer['count'];
+								}
+
+								$googleChartUrl .= '&chs=350x250';
+
+								if (isset($wordScale) && $wordScale == true) {
+									$googleChartUrl .= '&chxt=x&chxl=0:|Strongly Disagree|Disagree|No Opinion|Agree|Strongly Agree'; // Sets labelling to x-axis only and labels with numbers
+									$googleChartUrl .= '&chs=500x250&chbh=r,70,10'; // Makes chart wider		
+								} else {
+									$googleChartUrl .= '&chxt=x&chxl=0:|'.implode('|', $nameArray); // Sets labelling to x-axis only and labels with numbers
+								}
+								$googleChartUrl .= '&chm=N,000000,0,,10|N,000000,1,,10|N,000000,2,,10'; // Adds the count above bars
+								$googleChartUrl .= '&chds=0,'.(++$maxValue); // Sets scaling to a little bit more than max value
+								$googleChartUrl .= '&chd=t:'.implode(',', $valueArray); // Chart data
+
+								echo '<h4>'.$optionkey.'</h4>';
+								?><img src="<?php echo $googleChartUrl; ?>" alt="<?php echo $question['name']; ?>" /><?php
+					  		}
 					  } else {
-							echo 'Something went really wrong, please report this bug to the forum. Here\'s a var dump which might make you feel better.<pre>'; var_dump($question); echo '</pre>';
+							echo 'Something went really wrong, please report this bug to the GitHub Issues page. Here\'s a var dump which might make you feel better.<pre>'; var_dump($question); echo '</pre>';
 					  } ?>
 
 	<?php }
