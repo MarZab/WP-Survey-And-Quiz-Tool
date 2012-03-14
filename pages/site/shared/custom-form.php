@@ -1,9 +1,11 @@
-<h1><?php echo $_SESSION['wpsqt'][$quizName]['details']['name']; ?></h1>
+<?php 
+define('QUIZFORMFIRSTPAGE', true);
+?><h1><?php echo $_SESSION['wpsqt'][$quizName]['details']['name']; ?></h1>
 
 <?php if ( isset($errors) && !empty($errors) ){ ?>
-<ul>
+<ul class="quizNotice">
 	<?php foreach ($errors as $error){ ?>
-	<li><?php echo $error; ?></li>
+	<li ><?php echo $error; ?></li>
 	<?php } ?>
 </ul>
 <?php }?>
@@ -16,7 +18,7 @@
 			$fieldName = preg_replace('~[^a-z0-9]~i','',$field['name']);
 		?>
 		<tr>
-			<th><?php echo $field['name']; if ($field['required'] == 'yes'){?> <font color="#FF0000">*</font><?php } ?></th>
+			<th><?php echo (function_exists('qtrans_useCurrentLanguageIfNotFoundUseDefaultLanguage')) ? qtrans_useCurrentLanguageIfNotFoundUseDefaultLanguage($field['name']) : $field['name']; if ($field['required'] == 'yes'){?> <font color="#FF0000">*</font><?php } ?></th>
 			<td>
 		<?php if ($field['type'] == 'text'){?>
 			<input type="text" name="Custom_<?php echo $fieldName; ?>" value="<?php if ( isset($field['value'])) { echo $field['value']; } ?>" />
@@ -29,4 +31,3 @@
 	</table>
 	<p><input type='submit' value='Next &raquo;' class='button-secondary' /></p>
 </form>
-
