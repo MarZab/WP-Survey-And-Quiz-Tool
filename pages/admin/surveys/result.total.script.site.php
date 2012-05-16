@@ -10,9 +10,26 @@
 			<div class="wpsqt-question-review">
 			<h3><?php echo $question['name']; ?></h3>
 
+			<?php
+			$chartWidth = get_option('wpsqt_chart_width');
+			$chartHeight = get_option('wpsqt_chart_height');
+			$chartTextColour = get_option('wpsqt_chart_text_colour');
+			$chartTextSize = get_option('wpsqt_chart_text_size');
+			$chartAbbreviations = get_option('wpsqt_chart_abbreviation');
+			if (!isset($chartWidth) || $chartWidth == NULL)
+				$chartWidth = 400;
+			if (!isset($chartHeight) || $chartHeight == NULL)
+				$chartHeight = 185;
+			if (!isset($chartTextColour) || $chartTextColour == NULL)
+				$chartTextColour = '000000';
+			if (!isset($chartTextSize) || $chartTextSize == NULL)
+				$chartTextSize = 13;
+			$chartSize = 'chs='.$chartWidth.'x'.$chartHeight;
+			?>
+
 			<?php if ( $question['type'] == "Multiple Choice" ||
 					   $question['type'] == "Dropdown" ) {
-						$googleChartUrl = 'http://chart.apis.google.com/chart?chs=400x185&cht=p&chf=bg,s,'.get_option("wpsqt_chart_bg").'&chco='.get_option("wpsqt_chart_colour");
+						$googleChartUrl = 'http://chart.apis.google.com/chart?'.$chartSize.'&chxs=0,'.$chartTextColour.','.$chartTextSize.',0,lt,'.$chartTextColour.'|1,'.$chartTextColour.','.$chartTextSize.',1,lt,'.$chartTextColour.'&cht=p&chf=bg,s,'.get_option("wpsqt_chart_bg").'&chco='.get_option("wpsqt_chart_colour");
 						$valueArray    = array();
 						$nameArray     = array();
 					   foreach ( $question['answers'] as $answer ) {
@@ -47,7 +64,7 @@
 
 						}
 					  } else if ($question['type'] == "Likert") {
-							$googleChartUrl = 'http://chart.apis.google.com/chart?&cht=bvs&chf=bg,s,'.get_option("wpsqt_chart_bg").'&chco='.get_option("wpsqt_chart_colour");
+							$googleChartUrl = 'http://chart.apis.google.com/chart?&cht=bvs&chxs=0,'.$chartTextColour.','.$chartTextSize.',0,lt,'.$chartTextColour.'|1,'.$chartTextColour.','.$chartTextSize.',1,lt,'.$chartTextColour.'&chf=bg,s,'.get_option("wpsqt_chart_bg").'&chco='.get_option("wpsqt_chart_colour");
 							$valueArray    = array();
 							$nameArray     = array();
 							$maxValue = 0;
@@ -63,10 +80,14 @@
 							}
 							// Makes chart wider if its an agree/disagree question
 							if (array_key_exists('Disagree', $question['answers'])) {
-								$googleChartUrl .= '&chs=500x250&chbh=r,70,10';
-								$googleChartUrl .= '&chxt=x&chxl=0:|Strongly Disagree|Disagree|No Opinion|Agree|Strongly Agree'; // Sets labelling to x-axis only
+								$googleChartUrl .= '&'.$chartSize.'&chbh=r,5,10';
+								if ($chartAbbreviations == 'yes') {
+									$googleChartUrl .= '&chxt=x&chxl=0:|Strgly Disagree|Disagree|No Opinion|Agree|Strgly Agree'; // Sets labelling to x-axis only
+								} else {
+									$googleChartUrl .= '&chxt=x&chxl=0:|Strongly Disagree|Disagree|No Opinion|Agree|Strongly Agree'; // Sets labelling to x-axis only
+								}
 							} else {
-								$googleChartUrl .= '&chs=350x250';
+								$googleChartUrl .= '&'.$chartSize;
 								$googleChartUrl .= '&chxt=x&chxl=0:|'.implode('|', $nameArray); // Sets labelling to x-axis only
 							}
 							$googleChartUrl .= '&chm=N,000000,0,,10|N,000000,1,,10|N,000000,2,,10'; // Adds the count above bars
@@ -80,7 +101,7 @@
 				  			$wordScale = false;
 				  		}
 					  	foreach($question['answers'] as $optionkey => $matrixOption) {
-					  			$googleChartUrl = 'http://chart.apis.google.com/chart?&cht=bvs';
+					  			$googleChartUrl = 'http://chart.apis.google.com/chart?&cht=bvs&chxs=0,'.$chartTextColour.','.$chartTextSize.',0,lt,'.$chartTextColour.'|1,'.$chartTextColour.','.$chartTextSize.',1,lt,'.$chartTextColour.'';
 								$valueArray    = array();
 								$nameArray     = array();
 								$maxValue = 0;
@@ -94,11 +115,15 @@
 										$maxValue = $answer['count'];
 								}
 
-								$googleChartUrl .= '&chs=350x250';
+								$googleChartUrl .= '&'.$chartSize;
 
 								if (isset($wordScale) && $wordScale == true) {
-									$googleChartUrl .= '&chxt=x&chxl=0:|Strongly Disagree|Disagree|No Opinion|Agree|Strongly Agree'; // Sets labelling to x-axis only and labels with numbers
-									$googleChartUrl .= '&chs=500x250&chbh=r,70,10'; // Makes chart wider		
+									if ($chartAbbreviations == 'yes') {
+										$googleChartUrl .= '&chxt=x&chxl=0:|Strgly Disagree|Disagree|No Opinion|Agree|Strgly Agree'; // Sets labelling to x-axis only
+									} else {
+										$googleChartUrl .= '&chxt=x&chxl=0:|Strongly Disagree|Disagree|No Opinion|Agree|Strongly Agree'; // Sets labelling to x-axis only
+									}
+									$googleChartUrl .= '&'.$chartSize.'&chbh=r,5,10'; // Makes chart wider		
 								} else {
 									$googleChartUrl .= '&chxt=x&chxl=0:|'.implode('|', $nameArray); // Sets labelling to x-axis only and labels with numbers
 								}
@@ -109,7 +134,8 @@
 								$googleChartUrl .= '&chd=t:'.implode(',', $valueArray); // Chart data
 
 								echo '<h4>'.$optionkey.'</h4>';
-								?><img class="wpsqt-chart" src="<?php echo $googleChartUrl; ?>" alt="<?php echo $question['name']; ?>" /><?php
+								?><img class="wpsqt-chart" src="<?php echo $googleChartUrl; ?>" alt="<?php echo $question['name']; ?>" />
+								<?php
 					  		}
 					  } else {
 							echo 'Something went really wrong, please report this bug to the forum. Here\'s a var dump which might make you feel better.<pre>'; var_dump($question); echo '</pre>';

@@ -22,6 +22,11 @@ class Wpsqt_Page_Options extends Wpsqt_Page {
 			update_option("wpsqt_email_template",$_POST['wpsqt_email_template']);
 			update_option("wpsqt_chart_bg", $_POST['wpsqt_chart_bg']);
 			update_option("wpsqt_chart_colour", $_POST['wpsqt_chart_colour']);
+			update_option("wpsqt_chart_width", $_POST['wpsqt_chart_width']);
+			update_option("wpsqt_chart_height", $_POST['wpsqt_chart_height']);
+			update_option("wpsqt_chart_text_colour", $_POST['wpsqt_chart_text_colour']);
+			update_option("wpsqt_chart_text_size", $_POST['wpsqt_chart_text_size']);
+			update_option("wpsqt_chart_abbreviation", $_POST['wpsqt_chart_abbreviation']);
 			update_option("wpsqt_support_us",$_POST['wpsqt_support_us']);
 			update_option("wpsqt_from_email",$_POST['wpsqt_from_email']);
 			update_option("wpsqt_contact_email",$_POST['wpsqt_email']);
@@ -62,6 +67,11 @@ class Wpsqt_Page_Options extends Wpsqt_Page {
 		$this->_pageVars['emailTemplate'] = get_option("wpsqt_email_template");
 		$this->_pageVars['chartBg'] = get_option("wpsqt_chart_bg");
 		$this->_pageVars['chartColour'] = get_option("wpsqt_chart_colour");
+		$this->_pageVars['chartWidth'] = get_option("wpsqt_chart_width");
+		$this->_pageVars['chartHeight'] = get_option("wpsqt_chart_height");
+		$this->_pageVars['chartTextColour'] = get_option("wpsqt_chart_text_colour");
+		$this->_pageVars['chartTextSize'] = get_option("wpsqt_chart_text_size");
+		$this->_pageVars['chartAbbreviation'] = get_option("wpsqt_chart_abbreviation");
 		$this->_pageVars['supportUs'] = get_option("wpsqt_support_us");
 		$this->_pageVars['fromEmail'] = get_option("wpsqt_from_email");
 		$this->_pageVars['email'] = get_option("wpsqt_contact_email");

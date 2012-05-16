@@ -67,12 +67,35 @@
 			<tr>
 				<th scope="row">Chart Background Colour</th>
 				<td><input type="text" name="wpsqt_chart_bg" value="<?php echo $chartBg; ?>" size="30" /></td>
-				<td>This is the colour that will be displayed as the chart background (in RGB format)</td>
+				<td>This is the colour that will be displayed as the chart background (in RRGGBB format)</td>
 			</tr>
 			<tr>
 				<th scope="row">Chart Bar Colour</th>
 				<td><input type="text" name="wpsqt_chart_colour" value="<?php echo $chartColour; ?>" size="30" /></td>
-				<td>This is the colour that will be displayed as the chart bar colour (in RGB format)</td>
+				<td>This is the colour that will be displayed as the chart bar colour (in RRGGBB format)</td>
+			</tr>
+			<tr>
+				<th scope="row">Chart Size</th>
+				<td><input type="text" name="wpsqt_chart_width" value="<?php echo $chartWidth; ?>" size="4" />&nbsp;x&nbsp;<input type="text" name="wpsqt_chart_height" value="<?php echo $chartHeight; ?>" size="4" /></td>
+				<td>This is the size of the chart which will be displayed on the site in pixels (width x height).</td>
+			</tr>
+			<tr>
+				<th scope="row">Chart Text Colour</th>
+				<td><input type="text" name="wpsqt_chart_text_colour" value="<?php echo $chartTextColour; ?>" size="30" /></td>
+				<td>This is the colour of the text that will be used for the charts (in RRGGBB format)</td>
+			</tr>
+			<tr>
+				<th scope="row">Chart Text Size</th>
+				<td><input type="text" name="wpsqt_chart_text_size" value="<?php echo $chartTextSize; ?>" size="30" /></td>
+				<td>This is the size of the text that will be used for the charts.</td>
+			</tr>
+			<tr>
+				<th scope="row">Chart Text Abbreviations</th>
+				<td>
+					<input type="radio" name="wpsqt_chart_abbreviation" value="yes" id="wpsqt_abbreviation_yes" <?php if ($chartAbbreviation == 'yes') { echo 'checked="checked"'; } ?> /> <label for="wpsqt_abbreviation_yes">Yes</label>
+					<input type="radio" name="wpsqt_chart_abbreviation" value="no" id="wpsqt_abbreviation_no" <?php if ($chartAbbreviation == 'no') { echo 'checked="checked"'; } ?> /> <label for="wpsqt_abbreviation_no">No</label>
+				</td>
+				<td>Apply the abbreviation <em>strngly</em> instead of <em>strongly</em>.</td>
 			</tr>
 			<tr>
 				<th scope="row">Support Us!</th>
@@ -93,11 +116,10 @@
 		</table>
 	
 		<p class="submit">
-			<input class="button-primary" type="submit" name="Save" value="Save Quiz" id="submitbutton" />
+			<input class="button-primary" type="submit" name="Save" value="Save Options" id="submitbutton" />
 		</p>
 		
-		<h3>Replacement Token</h3>
-				
+		<h3 id="template_tokens">Replacement Token</h3>
 		<?php echo $objTokens->getDescriptions(); ?>	
 		
 	</form>

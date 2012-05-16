@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=99WUG
 Tags: Quiz,test,exam,survey,results,email,quizzes,charts,google charts,wpsqt,tool,poll,polling,polls
 Requires at least: 3.1
 Tested up to: 3.3-beta2
-Stable tag: 2.9.1
+Stable tag: 2.9.3
 A highly customisable Quiz, Survey and Poll plugin to which allows for unlimited questions and sections.
 
 == Description ==
@@ -64,6 +64,18 @@ If you have upgraded from a version 1.x.x and nothing appears to be saving, plea
 Any further issues then feel free to create a thread on the <a href="http://wordpress.org/tags/wp-survey-and-quiz-tool?forum_id=10">forum</a>.
 
 == ChangeLog ==
+
+= 2.9.3 =
+
+* Removed redundant code that was a possible XSS vulnerability
+
+= 2.9.2 =
+
+* Several clarifications in admin panel
+* Ability to customise chart size
+* Ability to customise chart text size
+* Ability to customise chart text colour
+* Ability to abbreviation 'strongly' on chart
 
 = 2.9.1 =
 
@@ -321,6 +333,9 @@ Any further issues then feel free to create a thread on the <a href="http://word
 * Whole bunch of other stuff
 
 == Upgrade Notice ==
+
+= 2.9.3 =
+Security release. XSS vulnerability has been removed.
 
 = 2.5.2 =
 Fixes for new poll system, doc updates, general bug fixes. Worth updating!
