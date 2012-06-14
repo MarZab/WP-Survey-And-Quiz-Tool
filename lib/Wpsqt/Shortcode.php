@@ -284,6 +284,8 @@ class Wpsqt_Shortcode {
 									jQuery(".timer").hide();
 								}
 							}, 1000);
+
+
 						});
 					</script>
 				<?php
@@ -449,10 +451,14 @@ class Wpsqt_Shortcode {
 
 		if ( isset($_SESSION['wpsqt'][$quizName]['details']['use_wp']) && $_SESSION['wpsqt'][$quizName]['details']['use_wp'] == 'yes'){
 			$objUser = wp_get_current_user();
-			$_SESSION['wpsqt'][$quizName]['person']['name'] = $objUser->user_login;
-			$_SESSION['wpsqt'][$quizName]['person']['fname'] = $objUser->first_name;
-			$_SESSION['wpsqt'][$quizName]['person']['lname'] = $objUser->last_name;
-			$_SESSION['wpsqt'][$quizName]['person']['email'] = $objUser->user_email;
+			if ($objUser->data != NULL) {
+				$_SESSION['wpsqt'][$quizName]['person']['name'] = $objUser->user_login;
+				$_SESSION['wpsqt'][$quizName]['person']['fname'] = $objUser->first_name;
+				$_SESSION['wpsqt'][$quizName]['person']['lname'] = $objUser->last_name;
+				$_SESSION['wpsqt'][$quizName]['person']['email'] = $objUser->user_email;
+			} else {
+				$_SESSION['wpsqt'][$quizName]['person']['name'] = 'Anonymous';
+			}
 		}
 
 		$personName = (isset($_SESSION['wpsqt'][$quizName]['person']['name'])) ? $_SESSION['wpsqt'][$quizName]['person']['name'] :  'Anonymous';
@@ -715,7 +721,7 @@ class Wpsqt_Shortcode {
 						$givenAnswer = NULL;
 					}
 				}
-				if ($cachedSections[$sectionKey]['questions'][$question['id']]['type'] != "Multiple" && isset($cachedSections[$sectionKey]['questions'][$question['id']]['answers'][$givenAnswer]["count"]))
+				if (isset($cachedSections[$sectionKey]['questions'][$question['id']]['type']) && $cachedSections[$sectionKey]['questions'][$question['id']]['type'] != "Multiple" && isset($cachedSections[$sectionKey]['questions'][$question['id']]['answers'][$givenAnswer]["count"]))
 					$cachedSections[$sectionKey]['questions'][$question['id']]['answers'][$givenAnswer]["count"]++;
 			}
 		}

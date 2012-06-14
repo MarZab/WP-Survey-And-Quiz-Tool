@@ -39,7 +39,7 @@ class Wpsqt_Form_Survey extends Wpsqt_Form {
 			 ->addOption("wpsqt_notificaton_type", "Complete Notification", "select", $options['notificaton_type'] , "Send a notification email of completion.",array('none','instant') )
 			 ->addOption("wpsqt_use_wp", "Use WordPress user details", "yesno", $options['use_wp'], "This will allow you to have the survey to use the details of the user if they are signed in. If enabled the contact form will not be shown if enabled.")
 			 ->addOption("wpsqt_email_template", "Custom Email Template", "textarea", $options['email_template'], "The template of the email sent on notification. <strong>If empty the default one will be sent.</strong> <a href=\"#template_tokens\">Click Here</a> to see the tokens that can be used.", array(), false)
-			 ->addOption("wpsqt_notification_email", "Notification Email", "text", $options['notification_email'], "The email address which is to be notified when the survey is completed. Emails can be seperated by a comma. <strong>Will override plugin wide option.</strong>", false )
+			 ->addOption("wpsqt_notification_email", "Notification Email", "text", $options['notification_email'], "The email address which is to be notified when the survey is completed. Emails can be seperated by a comma. <strong>Will override plugin wide option.</strong>", array(), false )
 			 ->addOption("wpsqt_finish_message", "Finish Message", "textarea", $options['finish_message'], "The message to display when the user has successfully finished the quiz. <strong>If empty the default one will be displayed.</strong> <a href=\"#template_tokens\">Click Here</a> to see the tokens that can be used.", array(), false);
 				
 		$this->options = $options;

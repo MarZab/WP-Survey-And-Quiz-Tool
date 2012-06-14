@@ -13,14 +13,10 @@
 class Wpsqt_Page_Maintenance extends Wpsqt_Page {
 
 	public function process(){
-		$ch = curl_init("http://wordpress.org/extend/plugins/wp-survey-and-quiz-tool/");
-		curl_setopt($ch, CURLOPT_HEADER, 0);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		$html = curl_exec($ch);
-		preg_match_all('$download\sversion\s((\d|\.)*)$i', $html, $version);
-		$this->_pageVars['version'] = $version[1][0];
-		curl_close($ch);
-		
+		$page = wp_remote_get('http://wordpress.org/extend/plugins/wp-survey-and-quiz-tool/');
+			preg_match_all('$download\sversion\s((\d|\.)*)$i', $page['body'], $version);
+			$this->_pageVars['version'] = $version[1][0];
+
 		if(get_option('wpsqt_update_required') == '1') {
 			$update = true;
 			$this->_pageVars['update'] = true;

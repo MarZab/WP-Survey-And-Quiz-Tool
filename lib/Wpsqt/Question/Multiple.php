@@ -11,7 +11,7 @@
 	 */
 class Wpsqt_Question_Multiple extends Wpsqt_Question {
 
-	public function __construct(){
+	public function __construct( array $values = array() ){
 		
 		global $wpdb;
 		

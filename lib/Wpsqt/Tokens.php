@@ -37,6 +37,8 @@ class Wpsqt_Tokens {
 					  	   ->addToken("DATE_US", "The date the quiz or survey was taken in US format.")
 						   ->addToken("SCORE", "Score gained in quiz, only works if automarking is enabled.")
 						   ->addToken("SCORE_PERCENTAGE", "Score gained in quiz, in a percentage.")
+						   ->addToken("SCORE_PASSFAIL","Shows either 'Pass' or 'Fail' depending on score.")
+						   ->addToken("SCORE_COMPETENT","Shows either 'Competent' or 'Not yet competent' depending on pass or fail.")
 						   ->addToken("RESULT_URL", "A link to view the results in the dashboard.")
 						   ->addToken("DATETIME_EU", "The date and time the quiz or survey was taken in EU format.")
 						   ->addToken("DATETIME_US", "The date and time the quiz or survey was taken in US format.")
@@ -129,6 +131,8 @@ class Wpsqt_Tokens {
 		$this->setTokenValue('USER_AGENT'  , $_SERVER['HTTP_USER_AGENT'] );		
 		$this->setTokenValue('SCORE'       , ( isset($_SESSION['wpsqt']['current_score']) ) ? $_SESSION['wpsqt']['current_score'] : '');
 		$this->setTokenValue('SCORE_PERCENTAGE' , ( isset($percentage) ) ? $percentage : '');
+		$this->setTokenValue('SCORE_PASSFAIL', ($_SESSION['wpsqt'][$quizName]['details']['pass_mark'] > (int)rtrim($percentage, "%")) ? 'Fail' : 'Pass');
+		$this->setTokenValue('SCORE_COMPETENT', ($_SESSION['wpsqt'][$quizName]['details']['pass_mark'] > (int)rtrim($percentage, "%")) ? 'Not yet competent' : 'Competent');
 		$this->setTokenValue('RESULT_URL'  , WPSQT_URL_MAIN."&section=results&subsection=mark&id=".$_SESSION['wpsqt']['item_id']."&resultid=".$_SESSION['wpsqt']['result_id'] );
 		$this->setTokenValue('USER_EMAIL'  , ( isset($_SESSION['wpsqt'][$quizName]['person']['email']) ) ? $_SESSION['wpsqt'][$quizName]['person']['email'] : '');
 		$this->setTokenValue('USER_NAME'   , ( isset($_SESSION['wpsqt'][$quizName]['person']['name']) ) ? $_SESSION['wpsqt'][$quizName]['person']['name'] : 'Anonymous User');

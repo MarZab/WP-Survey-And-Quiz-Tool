@@ -1,5 +1,4 @@
 <div class="wrap">
-
 	<div id="icon-tools" class="icon32"></div>
 	<h2>WP Survey And Quiz Tool - Results</h2>
 		
@@ -10,12 +9,17 @@
 		<strong><?php echo $message; ?></strong>
 	</div>
 	<?php } ?>
+
+	<?php if (isset($_GET['status'])) {
+		$filter = $_GET['status'];
+	} else {
+		$filter = 'all';
+	} ?>
 	
-	<form method="post" action="">
+		<form method="post" action="<?php echo WPSQT_URL_MAIN.'&section=resultsdelete&subsection=quiz&id='.$_GET['id']; ?>">
 	
 		<input type="hidden" name="wpsqt_nonce" value="<?php echo WPSQT_NONCE_CURRENT; ?>" />
 		<div class="tablenav">
-	
 			<ul class="subsubsub">
 				<li>
 					<a href="<?php echo WPSQT_URL_MAIN; ?>&section=results&subsection=quiz&id=<?php echo urlencode($_GET['id']); ?>" <?php if (isset($filter) && $filter == 'all') { ?>  class="current"<?php } ?> id="all_link">All <span class="count">(<?php echo $counts['unviewed_count'] + $counts['accepted_count'] + $counts['rejected_count']; ?>)</span></a> |			
@@ -37,36 +41,44 @@
 		</div>
 		
 		
+		<?php if (isset($_GET['order']) && $_GET['order'] == 'ASC') {
+			$order = 'DESC';
+		} else {
+			$order = 'ASC';
+		} ?>
 		<table class="widefat post fixed" cellspacing="0">
 			<thead>
 				<tr>
-					<th class="manage-column" scope="col" width="35">ID</th>
-					<th class="manage-column column-title" scope="col">Title</th>
-					<th scope="col" width="75">Score</th>
-					<th scope="col" width="90">Percentage</th>
-					<th scope="col" width="75">Pass/Fail</th>
-					<th scope="col" width="75">Status</th>
-					<th scope="col" width="75">Date</th>
+					<th scope="col" width="30"><input type="checkbox" class="wpsqt-selectall" /></th>
+					<th class="manage-column" scope="col" width="35"><a href="<?php echo WPSQT_URL_MAIN; ?>&section=results&subsection=quiz&id=<?php echo urlencode($_GET['id']); ?>&orderby=id&order=<?=$order?><?php if (isset($_GET['status'])) { echo '&status='.$_GET['status']; }  if (isset($_GET['username'])) { echo '&username='.$_GET['username']; } ?>">ID</a></th>
+					<th class="manage-column column-title" scope="col"><a href="<?php echo WPSQT_URL_MAIN; ?>&section=results&subsection=quiz&id=<?php echo urlencode($_GET['id']); ?>&orderby=person_name&order=<?=$order?><?php if (isset($_GET['status'])) { echo '&status='.$_GET['status']; }  if (isset($_GET['username'])) { echo '&username='.$_GET['username']; } ?>">Name</a></th>
+					<th scope="col" width="75"><a href="<?php echo WPSQT_URL_MAIN; ?>&section=results&subsection=quiz&id=<?php echo urlencode($_GET['id']); ?>&orderby=score&order=<?=$order?><?php if (isset($_GET['status'])) { echo '&status='.$_GET['status']; }  if (isset($_GET['username'])) { echo '&username='.$_GET['username']; } ?>">Score</a></th>
+					<th scope="col" width="90"><a href="<?php echo WPSQT_URL_MAIN; ?>&section=results&subsection=quiz&id=<?php echo urlencode($_GET['id']); ?>&orderby=percentage&order=<?=$order?><?php if (isset($_GET['status'])) { echo '&status='.$_GET['status']; }  if (isset($_GET['username'])) { echo '&username='.$_GET['username']; } ?>">Percentage</a></th>
+					<th scope="col" width="75"><a href="<?php echo WPSQT_URL_MAIN; ?>&section=results&subsection=quiz&id=<?php echo urlencode($_GET['id']); ?>&orderby=pass&order=<?=$order?><?php if (isset($_GET['status'])) { echo '&status='.$_GET['status']; }  if (isset($_GET['username'])) { echo '&username='.$_GET['username']; } ?>">Pass/Fail</a></th>
+					<th scope="col" width="75"><a href="<?php echo WPSQT_URL_MAIN; ?>&section=results&subsection=quiz&id=<?php echo urlencode($_GET['id']); ?>&orderby=status&order=<?=$order?><?php if (isset($_GET['status'])) { echo '&status='.$_GET['status']; }  if (isset($_GET['username'])) { echo '&username='.$_GET['username']; } ?>">Status</a></th>
+					<th scope="col" width="75"><a href="<?php echo WPSQT_URL_MAIN; ?>&section=results&subsection=quiz&id=<?php echo urlencode($_GET['id']); ?>&orderby=datetaken&order=<?=$order?><?php if (isset($_GET['status'])) { echo '&status='.$_GET['status']; }  if (isset($_GET['username'])) { echo '&username='.$_GET['username']; } ?>">Date</a></th>
 				</tr>			
 			</thead>
 			<tfoot>
 				<tr>
-					<th class="manage-column" scope="col" width="25">ID</th>
-					<th class="manage-column column-title" scope="col">Title</th>
-					<th scope="col" width="75">Score</th>
-					<th scope="col" width="90">Percentage</th>
-					<th scope="col" width="75">Pass/Fail</th>
-					<th scope="col" width="75">Status</th>
-					<th scope="col" width="75">Date</th>
+					<th scope="col" width="30"><input type="checkbox" class="wpsqt-selectall" /></th>
+					<th class="manage-column" scope="col" width="35"><a href="<?php echo WPSQT_URL_MAIN; ?>&section=results&subsection=quiz&id=<?php echo urlencode($_GET['id']); ?>&orderby=id&order=<?=$order?><?php if (isset($_GET['status'])) { echo '&status='.$_GET['status']; }  if (isset($_GET['username'])) { echo '&username='.$_GET['username']; } ?>">ID</a></th>
+					<th class="manage-column column-title" scope="col"><a href="<?php echo WPSQT_URL_MAIN; ?>&section=results&subsection=quiz&id=<?php echo urlencode($_GET['id']); ?>&orderby=person_name&order=<?=$order?><?php if (isset($_GET['status'])) { echo '&status='.$_GET['status']; }  if (isset($_GET['username'])) { echo '&username='.$_GET['username']; } ?>">Name</a></th>
+					<th scope="col" width="75"><a href="<?php echo WPSQT_URL_MAIN; ?>&section=results&subsection=quiz&id=<?php echo urlencode($_GET['id']); ?>&orderby=score&order=<?=$order?><?php if (isset($_GET['status'])) { echo '&status='.$_GET['status']; }  if (isset($_GET['username'])) { echo '&username='.$_GET['username']; } ?>">Score</a></th>
+					<th scope="col" width="90"><a href="<?php echo WPSQT_URL_MAIN; ?>&section=results&subsection=quiz&id=<?php echo urlencode($_GET['id']); ?>&orderby=percentage&order=<?=$order?><?php if (isset($_GET['status'])) { echo '&status='.$_GET['status']; }  if (isset($_GET['username'])) { echo '&username='.$_GET['username']; } ?>">Percentage</a></th>
+					<th scope="col" width="75"><a href="<?php echo WPSQT_URL_MAIN; ?>&section=results&subsection=quiz&id=<?php echo urlencode($_GET['id']); ?>&orderby=pass&order=<?=$order?><?php if (isset($_GET['status'])) { echo '&status='.$_GET['status']; }  if (isset($_GET['username'])) { echo '&username='.$_GET['username']; } ?>">Pass/Fail</a></th>
+					<th scope="col" width="75"><a href="<?php echo WPSQT_URL_MAIN; ?>&section=results&subsection=quiz&id=<?php echo urlencode($_GET['id']); ?>&orderby=status&order=<?=$order?><?php if (isset($_GET['status'])) { echo '&status='.$_GET['status']; }  if (isset($_GET['username'])) { echo '&username='.$_GET['username']; } ?>">Status</a></th>
+					<th scope="col" width="75"><a href="<?php echo WPSQT_URL_MAIN; ?>&section=results&subsection=quiz&id=<?php echo urlencode($_GET['id']); ?>&orderby=datetaken&order=<?=$order?><?php if (isset($_GET['status'])) { echo '&status='.$_GET['status']; }  if (isset($_GET['username'])) { echo '&username='.$_GET['username']; } ?>">Date</a></th>
 				</tr>			
 			</tfoot>
 			<tbody>
 				<?php foreach( $results as $result ){ ?>
 				<tr>
+					<td><input type="checkbox" name="delete[]" value="<?=$result['id']?>" class="wpsqt-delete" /></td>
 					<th scope="row"><?php echo $result['id']; ?></th>
 					<td class="column-title">
 						<strong>
-							<a class="row-title" href="<?php echo WPSQT_URL_MAIN; ?>&section=results&subsection=quiz&id=<?php echo urlencode($_GET['id']); ?>&resultid=<?php echo $result['id']; ?>"><?php echo esc_html(wp_kses_stripslashes($result['person_name']));  if (isset($person['email'])){ ?> - <?php echo $person['email']; }  if (isset($result['ipaddress'])) { ?> - <?php  echo $result['ipaddress']; } ?></a>
+							<a class="row-title" href="<?php echo WPSQT_URL_MAIN; ?>&section=results&subsection=quiz&id=<?php echo urlencode($_GET['id']); ?>&resultid=<?php echo $result['id']; ?>"><?php echo esc_html(wp_kses_stripslashes($result['person_name'])); ?></a>
 						</strong>
 						<div class="row-actions">
 							<span class="mark"><a href="<?php echo WPSQT_URL_MAIN; ?>&section=results&subsection=mark&id=<?php echo urlencode($_GET['id']); ?>&resultid=<?php echo $result['id']; ?>">Mark</a> | </span>
@@ -90,7 +102,8 @@
 		   		<?php echo Wpsqt_Core::getPaginationLinks($currentPage, $numberOfPages); ?>	
 			</div>
 		</div>
-		
+		<input type="submit" name="deleteselected" value="Delete Selected" /><br /><br />
+		<input type="checkbox" name="hideanon" value="hide" id="wpsqt-hideanon" /><label for="wpsqt-hideanon">Hide results with username Anonymous</label>
 	</form>
 </div>
 <?php require_once WPSQT_DIR.'/pages/admin/shared/image.php'; ?>

@@ -13,7 +13,7 @@ class Wpsqt_Page_Main_Results_Poll extends Wpsqt_Page_Main_Results {
 
 		$results = $wpdb->get_row(
 					$wpdb->prepare("SELECT * FROM `".WPSQT_TABLE_SURVEY_CACHE."` WHERE item_id = %d",
-								   array($_GET['id'])), ARRAY_A
+								   array($pollId)), ARRAY_A
 								);
 		
 		$sections = unserialize($results['sections']);

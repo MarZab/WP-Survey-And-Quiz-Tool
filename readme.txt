@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=99WUG
 Tags: Quiz,test,exam,survey,results,email,quizzes,charts,google charts,wpsqt,tool,poll,polling,polls
 Requires at least: 3.1
 Tested up to: 3.3-beta2
-Stable tag: 2.9.3
+Stable tag: 2.10.1
 A highly customisable Quiz, Survey and Poll plugin to which allows for unlimited questions and sections.
 
 == Description ==
@@ -64,6 +64,27 @@ If you have upgraded from a version 1.x.x and nothing appears to be saving, plea
 Any further issues then feel free to create a thread on the <a href="http://wordpress.org/tags/wp-survey-and-quiz-tool?forum_id=10">forum</a>.
 
 == ChangeLog ==
+
+= 2.10.1 =
+
+* Fixed error with maintenance page not able to display
+
+= 2.10 =
+
+* Fixed navigation links bug on results page
+* Fixed update check to respect proxy settings
+* Fixed poll results not displaying
+* Fixed free text question hint not displaying
+* Fixed several warnings from appearing
+* Fixed survey creation - notification email is no longer required as stated
+* Fixed person name being set to blank in certain cases
+* Added ability to remove multiple results
+* Added button to remove an image from a question
+* Added custom form fields to results table
+* Added sorting by headings on quiz results table
+* Added option to hide Anonymous results
+* Moved an option on the quiz options page to make a little more sense
+* Removed IP address from results table - can be seen on mark page if required
 
 = 2.9.3 =
 

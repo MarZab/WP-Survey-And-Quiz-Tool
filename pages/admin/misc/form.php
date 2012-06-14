@@ -37,12 +37,16 @@
 						<?php
 						break;
 					case 'image':
+						if (isset($_GET['image']) && $_GET['image'] == 'remove') {
+							$option['value'] = '';
+						}
 						$media_upload_iframe_src = "media-upload.php?question_id=".$name."&amp;app=wpsqt&amp;TB_iframe=true&amp;cb=" . rand();
 						$image_upload_iframe_src = apply_filters('image_upload_iframe_src', $media_upload_iframe_src."&amp;type=image");
 						?>
 							<div id="image_<?php echo $name; ?>_link"><a href="<?php echo $image_upload_iframe_src; ?>" id="image_<?php echo $name; ?>_upload" class="thickbox" onclick="setId('<?php echo $name; ?>');" title="<?php echo $name ?>">Select/upload image</a></div>
 							<div class="wpsqt_image" id="image_<?php echo $name; ?>_image"><?php echo stripslashes($option['value']); ?></div>
 							<input type="hidden" name="<?php echo $name; ?>" id="image_<?php echo $name; ?>_text" value='<?php echo stripcslashes($option['value']); ?>' />
+							<a href="<?php echo esc_url($_SERVER['REQUEST_URI']); ?>&image=remove">Remove Image</a>
 						<?php
 						break;
 				}?>
